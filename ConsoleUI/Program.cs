@@ -11,10 +11,10 @@ using DataAccess.Concrete.InMemory;
 //    Console.WriteLine(item.ProductName);
 //}
 
-ProductManager productManager= new ProductManager(new EfProductDal());
-foreach (var item in productManager.GetByUnitPrice(40,110))
+ProductManager productManager = new ProductManager(new EfProductDal());
+foreach (var item in productManager.GetProductDetails())
 {
-    Console.WriteLine(item.ProductName);
+    Console.WriteLine(item.ProductName +" --------" + item.CategoryName);
 }
 
 
