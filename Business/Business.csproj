@@ -7,6 +7,21 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="asdasdasd\**" />
+    <Compile Remove="şlkmşl\**" />
+    <EmbeddedResource Remove="asdasdasd\**" />
+    <EmbeddedResource Remove="şlkmşl\**" />
+    <None Remove="asdasdasd\**" />
+    <None Remove="şlkmşl\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Autofac" Version="6.3.0" />
+    <PackageReference Include="Autofac.Extras.DynamicProxy" Version="6.0.1" />
+    <PackageReference Include="FluentValidation" Version="10.4.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\DataAccess\DataAccess.csproj" />
     <ProjectReference Include="..\Entities\Entities.csproj" />
   </ItemGroup>
