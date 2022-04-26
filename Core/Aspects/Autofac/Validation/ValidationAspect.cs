@@ -17,16 +17,16 @@ namespace Core.Aspects.Autofac.Validation
         {
             if (!typeof(IValidator).IsAssignableFrom(validatorType))
             {
-                throw new System.Exception("Hata");
+                throw new System.Exception("Bu Bir Doğrulama Sınıfı Değil");
             }
 
             _validatorType = validatorType;
         }
         protected override void OnBefore(IInvocation invocation)
         {
-            var validator = (IValidator)Activator.CreateInstance(_validatorType);
-            var entityType = _validatorType.BaseType.GetGenericArguments()[0];
-            var entities = invocation.Arguments.Where(t => t.GetType() == entityType);
+            var validator = (IValidator)Activator.CreateInstance(_validatorType);//ProductValidator'u newledik çalışma anında
+            var entityType = _validatorType.BaseType.GetGenericArguments()[0]; // ProductValidator'un Tipini yakaladık
+            var entities = invocation.Arguments.Where(t => t.GetType() == entityType); // parametreler içinde bizim aradığımızı bulduk
             foreach (var entity in entities)
             {
                 ValidationTool.Validate(validator, entity);
