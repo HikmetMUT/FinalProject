@@ -34,7 +34,7 @@ builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory())
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();// biz ekledik
 ServiceTool.Create(builder.Services);
 
 /// <summary> token için oluþturuldu
@@ -54,11 +54,6 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             IssuerSigningKey = SecurityKeyHelper.CreateSecurityKey(tokenOptions.SecurityKey)
         };
     });
-
-//builder.Services.AddDependencyResolvers(new ICoreModule[]
-//{
-//    new CoreModule()
-//});
 /// </summary>
 
 var app = builder.Build();
