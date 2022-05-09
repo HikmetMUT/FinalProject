@@ -3,6 +3,8 @@ using Autofac.Extensions.DependencyInjection;
 using Business.Abstract;
 using Business.Concrete;
 using Business.DependencyResolvers.Autofac;
+using Core.DependencyResolvers;
+using Core.Extensions;
 using Core.Utilities.IoC;
 using Core.Utilities.Security.Encryption;
 using Core.Utilities.Security.JWT;
@@ -34,8 +36,8 @@ builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory())
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();// biz ekledik
-ServiceTool.Create(builder.Services);
+//builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();// biz ekledik
+//ServiceTool.Create(builder.Services);
 
 /// <summary> token için oluþturuldu
 var tokenOptions = builder.Configuration.GetSection("TokenOptions").Get<TokenOptions>();
@@ -54,6 +56,10 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             IssuerSigningKey = SecurityKeyHelper.CreateSecurityKey(tokenOptions.SecurityKey)
         };
     });
+
+builder.Services.AddDependencyResolvers(new ICoreModule[] {//HttpContextAccessor bölümünü dýþarý aldýk.ve Burda Çaðýrdýk
+    new CoreModule()
+});
 /// </summary>
 
 var app = builder.Build();
@@ -67,7 +73,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.UseAuthentication();//biz ekledik
+app.UseAuthentication();//biz ekledik///
 app.UseAuthorization();
 
 app.MapControllers();

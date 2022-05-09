@@ -31,8 +31,8 @@ namespace Business.Concrete
             _productDal = productDal;
             _categoryService = categoryService;
         }
-
-        [ValidationAspect(typeof(ProductValidator))]
+        [SecuredOperation("Product.Add,Admin")]
+        [ValidationAspect(typeof(ProductValidator))]///////////////////////////////////////////////////////////////
         public IResult Add(Product product)
         {
             IResult result = BusinessRules.Run(CheckİfProductCountOfCategoryCorrect(product.CategoryId),
@@ -47,7 +47,7 @@ namespace Business.Concrete
             return new SuccessResult(Messages.ProductAdded);
 
         }
-        [SecuredOperation("Product.Add,Admin")]
+        [SecuredOperation("Product.Add,Admin")]//////////////////////////////////////////////////////////////////////
         public IDataResult<List<Product>> GetAll()
         {
             if (DateTime.Now.Hour == 10)

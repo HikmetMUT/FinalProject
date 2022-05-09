@@ -44,6 +44,7 @@ namespace WebAPI.Controllers
             }
 
             var registerResult = _authService.Register(userForRegisterDto, userForRegisterDto.Password);
+            //Sisteme İLK DEFA kayıt olanlara varsayılan olarak claim burda eklenebilir
             var result = _authService.CreateAccessToken(registerResult.Data);
             if (result.Success)
             {
