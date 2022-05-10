@@ -4,6 +4,7 @@ using Business.Constants;
 using Business.CSS;
 using Business.ValidationRules.FluentValidation;
 using Core.Aspects.Autofac.Validation;
+using Core.Aspects.Caching;
 using Core.CrossCuttingConcerns.Validation;
 using Core.Utilities.Business;
 using Core.Utilities.Results;
@@ -31,8 +32,10 @@ namespace Business.Concrete
             _productDal = productDal;
             _categoryService = categoryService;
         }
-        [SecuredOperation("Product.Add,Admin")]
+        [SecuredOperation("Product.Add,Admin")]/////////////////////////////////////////////////////////////////////
         [ValidationAspect(typeof(ProductValidator))]///////////////////////////////////////////////////////////////
+        [CacheRemoveAspect("IProductService.Get")]
+
         public IResult Add(Product product)
         {
             IResult result = BusinessRules.Run(CheckİfProductCountOfCategoryCorrect(product.CategoryId),
@@ -47,7 +50,7 @@ namespace Business.Concrete
             return new SuccessResult(Messages.ProductAdded);
 
         }
-        [SecuredOperation("Product.Add,Admin")]//////////////////////////////////////////////////////////////////////
+        [CacheAspect] //
         public IDataResult<List<Product>> GetAll()
         {
             if (DateTime.Now.Hour == 10)
@@ -64,6 +67,7 @@ namespace Business.Concrete
             return new SuccessDataResult<List<Product>>(_productDal.GetAll(p => p.CategoryId == id));
         }
 
+        [CacheAspect]
         public IDataResult<Product> GetById(int id)
         {
             return new SuccessDataResult<Product>(_productDal.Get(p => p.ProductId == id));
@@ -80,6 +84,8 @@ namespace Business.Concrete
         }
 
         [ValidationAspect(typeof(ValidationAspect))]
+        [CacheRemoveAspect("IProductService.Get")]
+
         public IResult Update(Product product)
         {
             return new SuccessResult();

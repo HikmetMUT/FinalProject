@@ -1,5 +1,7 @@
 ﻿using Business.Abstract;
 using Business.Concrete;
+using Core.Aspects.Performance;
+using Core.Aspects.Transaction;
 using DataAccess.Concrete.EntityFramework;
 using Entities.Concrete;
 using Microsoft.AspNetCore.Http;
@@ -19,6 +21,7 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet("getall")]
+        [PerformanceAspect(5)]
         public IActionResult GetAll()
         {
             var result=_productService.GetAll();
@@ -29,6 +32,7 @@ namespace WebAPI.Controllers
             return BadRequest(result);
         }
         [HttpPost("add")]
+        [TransactionScopeAspect]
         public IActionResult Add(Product product )
         {
             var result = _productService.Add(product);
