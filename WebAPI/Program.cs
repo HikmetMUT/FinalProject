@@ -1,30 +1,16 @@
-using Autofac;
+ï»¿using Autofac;
 using Autofac.Extensions.DependencyInjection;
-using Business.Abstract;
-using Business.Concrete;
 using Business.DependencyResolvers.Autofac;
 using Core.DependencyResolvers;
 using Core.Extensions;
 using Core.Utilities.IoC;
 using Core.Utilities.Security.Encryption;
 using Core.Utilities.Security.JWT;
-using DataAccess.Abstract;
-using DataAccess.Concrete.EntityFramework;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
-
-// Add services to the container.
-
-builder.Services.AddControllers();
-
-//Kendi IoC Container Yapýsýný Burda Ekledik Sonra Autofac'a geçtik
-//builder.Services.AddSingleton<IProductService, ProductManager>();
-//builder.Services.AddSingleton<IProductDal, EfProductDal>();
-
-
-//IoC Yapýsýný Ekliyoruz
+//IoC YapÄ±sÄ±nÄ± Ekliyoruz
 builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory())
     .ConfigureContainer<ContainerBuilder>(builder =>
     {
@@ -32,6 +18,9 @@ builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory())
     });
 
 
+
+
+builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -39,7 +28,14 @@ builder.Services.AddSwaggerGen();
 //builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();// biz ekledik
 //ServiceTool.Create(builder.Services);
 
-/// <summary> token için oluþturuldu
+/// <summary> token iÃ§in oluÅŸturuldu
+
+
+
+
+
+
+
 var tokenOptions = builder.Configuration.GetSection("TokenOptions").Get<TokenOptions>();
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -56,11 +52,18 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             IssuerSigningKey = SecurityKeyHelper.CreateSecurityKey(tokenOptions.SecurityKey)
         };
     });
-
-builder.Services.AddDependencyResolvers(new ICoreModule[] {//HttpContextAccessor bölümünü dýþarý aldýk.ve Burda Çaðýrdýk
+//HttpContextAccessor bÃ¶lÃ¼mÃ¼nÃ¼ dÄ±ÅŸarÄ± aldÄ±k.ve Burda Ã‡aÄŸÄ±rdÄ±k
+builder.Services.AddDependencyResolvers(new ICoreModule[] 
+{
     new CoreModule()
 });
 /// </summary>
+
+
+
+
+
+
 
 var app = builder.Build();
 
@@ -73,9 +76,17 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.UseAuthentication();//biz ekledik///
+app.UseAuthentication();//biz ekledik
+
 app.UseAuthorization();
 
 app.MapControllers();
 
 app.Run();
+
+// Add services to the container.
+
+
+//Kendi IoC Container YapÄ±sÄ±nÄ± Burda Ekledik Sonra Autofac'a geÃ§tik
+//builder.Services.AddSingleton<IProductService, ProductManager>();
+//builder.Services.AddSingleton<IProductDal, EfProductDal>();

@@ -1,4 +1,4 @@
-﻿namespace Business.CSS
+﻿namespace Business.CCS
 {
     public class DataBaseLogger : ILogger
     {

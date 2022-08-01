@@ -1,16 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Core.Extensions
 {
     public static class ClaimExtensions
     {
-        public static void AddEmail(this ICollection<Claim> claims, string email)//(this ICollection<Claim> claims=>> bu metot neyi extent edecek.string email=>> paramere
+        public static void AddEmail(this ICollection<Claim> claims, string email)
         {
             claims.Add(new Claim(JwtRegisteredClaimNames.Email, email));
         }

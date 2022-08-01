@@ -6,31 +6,33 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Core.Aspects.Autofac.Validation
 {
-    public class ValidationAspect : MethodInterception
+    public class ValidationAspect : MethodInterception //Aspect
     {
         private Type _validatorType;
         public ValidationAspect(Type validatorType)
         {
+            //defensive coding
             if (!typeof(IValidator).IsAssignableFrom(validatorType))
             {
-                throw new System.Exception("Bu Bir Doğrulama Sınıfı Değil");
+                throw new System.Exception("Bu bir doğrulama sınıfı değil");
             }
 
             _validatorType = validatorType;
         }
         protected override void OnBefore(IInvocation invocation)
         {
-            var validator = (IValidator)Activator.CreateInstance(_validatorType);//ProductValidator'u newledik çalışma anında
-            var entityType = _validatorType.BaseType.GetGenericArguments()[0]; // ProductValidator'un Tipini yakaladık
-            var entities = invocation.Arguments.Where(t => t.GetType() == entityType); // parametreler içinde bizim aradığımızı bulduk
+            var validator = (IValidator)Activator.CreateInstance(_validatorType);
+            var entityType = _validatorType.BaseType.GetGenericArguments()[0];
+            var entities = invocation.Arguments.Where(t => t.GetType() == entityType);
             foreach (var entity in entities)
             {
                 ValidationTool.Validate(validator, entity);
             }
         }
+
+
     }
 }

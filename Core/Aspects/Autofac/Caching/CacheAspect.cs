@@ -2,14 +2,13 @@
 using Core.CrossCuttingConcerns.Caching;
 using Core.Utilities.Interceptors;
 using Core.Utilities.IoC;
-using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using Microsoft.Extensions.DependencyInjection;
 
-namespace Core.Aspects.Caching
+namespace Core.Aspects.Autofac.Caching
 {
     public class CacheAspect : MethodInterception
     {
@@ -24,12 +23,12 @@ namespace Core.Aspects.Caching
 
         public override void Intercept(IInvocation invocation)
         {
-            var methodName = string.Format($"{invocation.Method.ReflectedType.FullName}.{invocation.Method.Name}");//Çalışma anında gidip methodu ve method ismini buluyor
+            var methodName = string.Format($"{invocation.Method.ReflectedType.FullName}.{invocation.Method.Name}");
             var arguments = invocation.Arguments.ToList();
-            var key = $"{methodName}({string.Join(",", arguments.Select(x => x?.ToString() ?? "<Null>"))})"; // key değeri oluşur.
+            var key = $"{methodName}({string.Join(",", arguments.Select(x => x?.ToString() ?? "<Null>"))})";
             if (_cacheManager.IsAdd(key))
             {
-                invocation.ReturnValue = _cacheManager.Get(key); // vtb ye gitme burdaki değeri dön managere
+                invocation.ReturnValue = _cacheManager.Get(key);
                 return;
             }
             invocation.Proceed();

@@ -5,23 +5,21 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Core.DataAccess.EntityFramework
 {
     public class EfEntityRepositoryBase<TEntity, TContext> : IEntityRepository<TEntity>
         where TEntity : class, IEntity, new()
         where TContext : DbContext, new()
-
     {
         public void Add(TEntity entity)
         {
-            //IDisposible pattern implementation of c#
+            //IDisposable pattern implementation of c#
             using (TContext context = new TContext())
             {
-                var addedEntity = context.Entry(entity); // yakala
-                addedEntity.State = EntityState.Added; // ekle
-                context.SaveChanges(); // kaydet
+                var addedEntity = context.Entry(entity);
+                addedEntity.State = EntityState.Added;
+                context.SaveChanges();
             }
         }
 
@@ -29,9 +27,9 @@ namespace Core.DataAccess.EntityFramework
         {
             using (TContext context = new TContext())
             {
-                var deletedEntity = context.Entry(entity); // yakala
-                deletedEntity.State = EntityState.Deleted; // sil
-                context.SaveChanges(); // kaydet
+                var deletedEntity = context.Entry(entity);
+                deletedEntity.State = EntityState.Deleted;
+                context.SaveChanges();
             }
         }
 
@@ -57,9 +55,9 @@ namespace Core.DataAccess.EntityFramework
         {
             using (TContext context = new TContext())
             {
-                var updateEntity = context.Entry(entity); // yakala
-                updateEntity.State = EntityState.Modified; // güncelle
-                context.SaveChanges(); // kaydet
+                var updatedEntity = context.Entry(entity);
+                updatedEntity.State = EntityState.Modified;
+                context.SaveChanges();
             }
         }
     }

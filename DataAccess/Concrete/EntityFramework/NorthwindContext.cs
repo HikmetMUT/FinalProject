@@ -13,7 +13,8 @@ namespace DataAccess.Concrete.EntityFramework
     {
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(@"Server=DESKTOP-D9IE16U\SQLEXPRESS;Database=Northwind;Trusted_Connection=true");
+            optionsBuilder.UseSqlServer(@"Server=DESKTOP-19UC984\SQLSERVER;Database=Northwind;Trusted_Connection=true");
+
         }
         public DbSet<Product> Products { get; set; }
         public DbSet<Category> Categories { get; set; }
@@ -25,3 +26,4 @@ namespace DataAccess.Concrete.EntityFramework
 
     }
 }
+

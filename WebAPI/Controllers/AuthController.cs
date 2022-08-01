@@ -1,7 +1,10 @@
 ﻿using Business.Abstract;
 using Entities.DTOs;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace WebAPI.Controllers
 {
@@ -44,7 +47,6 @@ namespace WebAPI.Controllers
             }
 
             var registerResult = _authService.Register(userForRegisterDto, userForRegisterDto.Password);
-            //Sisteme İLK DEFA kayıt olanlara varsayılan olarak claim burda eklenebilir
             var result = _authService.CreateAccessToken(registerResult.Data);
             if (result.Success)
             {
