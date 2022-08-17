@@ -36,7 +36,7 @@ namespace Business.Concrete
         //Claim
         //[SecuredOperation("product.add,admin")]
         [ValidationAspect(typeof(ProductValidator))]
-        [CacheRemoveAspect("IProductService.Get")]
+        // [CacheRemoveAspect("IProductService.Get")]
         public IResult Add(Product product)
         {
 
@@ -57,8 +57,8 @@ namespace Business.Concrete
         }
 
 
-        [CacheAspect] //key,value
-        [SecuredOperation("admin")]
+        //[CacheAspect] //key,value
+        //[SecuredOperation("admin")]
 
         public IDataResult<List<Product>> GetAll()
         {

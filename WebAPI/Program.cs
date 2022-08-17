@@ -34,7 +34,7 @@ builder.Services.AddSwaggerGen();
 
 
 
-
+builder.Services.AddCors();
 
 var tokenOptions = builder.Configuration.GetSection("TokenOptions").Get<TokenOptions>();
 
@@ -73,7 +73,9 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+app.ConfigureCustomExceptionMiddleware(); // bizim ekleyeceğimiz middleware varsa onu ekliyoruz
 
+app.UseCors(builder => builder.WithOrigins("http://localhost:4200").AllowAnyHeader());
 app.UseHttpsRedirection();
 
 app.UseAuthentication();//biz ekledik
